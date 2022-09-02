@@ -29,6 +29,12 @@ production stylesheet in assets/built/screen.css
 /* Import CSS reset and base styles */
 @import "global.css";
 
+/* Usage: font-variation-settings: 'wght' 100-900; */
+@font-face {
+    font-family: "Manrope";
+    src: url("../fonts/Manrope[wght].woff2") format("woff2"); 
+}
+
 :root {
 
     /* Colours */
@@ -53,7 +59,7 @@ production stylesheet in assets/built/screen.css
      */
 
     /* Fonts */
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     --font-serif: Georgia, Times, serif;
     --font-mono: Menlo, Courier, monospace;
 
@@ -64,13 +70,44 @@ production stylesheet in assets/built/screen.css
 /* ---------------------------------------------------------- */
 
 .viewport {
+    padding: 52px;
+    position: relative;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 40px;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1392px;
+}
+
+.sidebar {
+    position: sticky;
+    top: 52px;
+    height: calc(100vh - 104px);
+    grid-column: 1 / 4;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    justify-content: space-between;
+    /* background:rgba(0, 0, 0, 0.1); */
+}
+
+.sidebar a {
+    line-height: 1.9em;
 }
 
 .site-content {
-    flex-grow: 1;
+    grid-column: 4 / 13;
+    /* background: rgba(0, 0, 0, 0.2); */
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: min-content;
+    gap: 40px;
 }
 
 /* Full width page blocks */
@@ -279,10 +316,10 @@ body:not(.has-cover) .site-header-content:not(.left-aligned) {
 }
 
 .gh-head-inner {
-    display: grid;
+    /* display: grid;
     grid-gap: 40px;
     grid-template-columns: auto auto 1fr;
-    grid-auto-flow: row dense;
+    grid-auto-flow: row dense; */
 }
 
 
@@ -290,11 +327,10 @@ body:not(.has-cover) .site-header-content:not(.left-aligned) {
 /* ---------------------------------------------------------- */
 
 .gh-head-brand {
-    display: flex;
+    /* display: flex;
     align-items: center;
-    height: 40px;
     max-width: 400px;
-    word-break: break-all;
+    word-break: break-all; */
 }
 
 .gh-head-logo {
@@ -303,6 +339,7 @@ body:not(.has-cover) .site-header-content:not(.left-aligned) {
     font-size: 2.6rem;
     letter-spacing: -0.02em;
     color: inherit;
+    margin: 0 0 32px -4px;
 }
 
 .gh-head-logo.no-image {
@@ -318,7 +355,7 @@ body:not(.has-cover) .site-header-content:not(.left-aligned) {
 }
 
 .gh-head-logo img {
-    max-height: 26px;
+    max-height: 60px;
 }
 
 .gh-head-brand-wrapper {
@@ -333,7 +370,6 @@ body:not(.has-cover) .site-header-content:not(.left-aligned) {
 .gh-head-menu {
     display: flex;
     align-items: center;
-    margin-top: 1px;
     font-weight: 500;
 }
 
@@ -342,10 +378,10 @@ body:not(.has-cover) .site-header-content:not(.left-aligned) {
 }
 
 .gh-head-menu .nav {
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 32px;
+    gap: 4px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -354,11 +390,11 @@ body:not(.has-cover) .site-header-content:not(.left-aligned) {
 .gh-head-menu .nav li {
     margin: 0;
     padding: 0;
+    line-height: 1em;
 }
 
 .gh-head-menu .nav a {
     display: inline-block;
-    line-height: 1.7;
     color: inherit;
 }
 
@@ -388,33 +424,6 @@ body:not(.has-cover) .site-header-content:not(.left-aligned) {
 .gh-social-link svg {
     width: 18px;
     height: 18px;
-}
-
-.gh-head-actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 24px;
-    list-style: none;
-    text-align: right;
-}
-
-.gh-head-button {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 16px;
-    height: 40px;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    font-size: 1.5rem;
-    border-radius: 6px;
-    color: #fff;
-    background: var(--ghost-accent-color);
-}
-
-.has-cover .gh-head-button {
-    color: var(--color-darkgrey);
-    background: #fff;
 }
 
 /* Search
@@ -701,7 +710,7 @@ body:not(.gh-head-open) .gh-burger:hover .gh-burger-inner::after {
 
 .post-card {
     position: relative;
-    grid-column: span 2;
+    grid-column: span 3;
     display: flex;
     flex-direction: column;
     background-size: cover;
@@ -712,13 +721,12 @@ body:not(.gh-head-open) .gh-burger:hover .gh-burger-inner::after {
     position: relative;
     overflow: hidden;
     display: block;
-    margin-bottom: 32px;
 }
 
 .post-card-image-link::after {
     content: "";
     display: block;
-    padding-bottom: 55%;
+    padding-bottom: 100%;
 }
 
 .post-card[class*="post-access-"] .post-card-image-link::after {
@@ -1013,7 +1021,7 @@ make sure this only happens on large viewports / desktop-ish devices.
 /* ---------------------------------------------------------- */
 
 .article {
-    padding: max(8vmin, 40px) 0 max(8vmin, 64px);
+    /* padding: max(8vmin, 40px) 0 max(8vmin, 64px); */
     word-break: break-word;
 }
 
@@ -1022,7 +1030,7 @@ make sure this only happens on large viewports / desktop-ish devices.
 }
 
 .article-header {
-    padding: 0 0 max(6.4vmin, 40px) 0;
+    padding: 0 0 22px 0;
 }
 
 .page-template .article-header {
@@ -1039,9 +1047,10 @@ make sure this only happens on large viewports / desktop-ish devices.
 }
 
 .article-title {
+    grid-column: full-start / full-end !important;
     margin-bottom: 0;
-    font-size: clamp(3.2rem, 5vw, 5.2rem);
-    font-weight: 800;
+    font-size: clamp(3.2rem, 5vw, 6.8rem);
+    font-weight: 600;
     line-height: 1;
     color: var(--color-darkgrey);
 }
@@ -1059,9 +1068,10 @@ make sure this only happens on large viewports / desktop-ish devices.
 }
 
 .gh-canvas .article-image {
-    grid-column: wide-start / wide-end;
+    grid-column: full-start / full-end;
     width: 100%;
-    margin: max(6.4vmin, 40px) 0 0;
+    margin: 0 0 6vmin;
+    /* margin: max(6.4vmin, 40px) 0 0; */
 }
 
 .image-full .article-image {
@@ -1097,7 +1107,7 @@ use it for applying any other styles. */
 
 .gh-canvas {
     display: grid;
-    grid-template-columns:
+    /* grid-template-columns:
         [full-start]
         minmax(max(4vmin, 20px), auto)
             [wide-start]
@@ -1109,7 +1119,15 @@ use it for applying any other styles. */
             [wide-end]
         minmax(max(4vmin, 20px), auto)
         [full-end]
+    ; */
+    grid-template-columns:
+        [full-start main-start wide-start]
+        6fr
+            [main-end]
+            3fr
+        [wide-end full-end]
     ;
+    column-gap: 40px;
 }
 
 .gh-canvas > * {
@@ -1186,9 +1204,8 @@ is the very first element in the post content */
 .gh-content > ul,
 .gh-content > dl,
 .gh-content > p {
-    font-family: var(--font-serif);
     font-weight: 400;
-    font-size: 2rem;
+    font-size: 1.7rem;
     line-height: 1.6em;
 }
 
@@ -1196,9 +1213,8 @@ is the very first element in the post content */
 .gh-content .kg-toggle-card .kg-toggle-content > ol,
 .gh-content .kg-toggle-card .kg-toggle-content > ul,
 .gh-content .kg-toggle-card .kg-toggle-content > p {
-    font-family: var(--font-serif);
     font-weight: 400;
-    font-size: 1.9rem;
+    font-size: 1.7rem;
     line-height: 1.6em;
 }
 
