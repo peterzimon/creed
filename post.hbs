@@ -10,7 +10,7 @@ into the {body} tag of the default.hbs template --}}
 <main id="site-main" class="site-main">
 <article class="article {{post_class}}">
 
-    <header class="article-header gh-canvas">
+    <header class="article-header canvas">
 
         {{#if feature_image}}
             <figure class="article-image">
@@ -30,14 +30,6 @@ into the {body} tag of the default.hbs template --}}
                 {{/if}}
             </figure>
         {{/if}}
-
-        {{!-- <div class="article-tag post-card-tags">
-            {{#primary_tag}}
-                <span class="post-card-primary-tag">
-                    <a href="{{url}}">{{name}}</a>
-                </span>
-            {{/primary_tag}}
-        </div> --}}
 
         <h1 class="article-title">{{title}}</h1>
 
@@ -75,37 +67,47 @@ into the {body} tag of the default.hbs template --}}
         </section>
         </div> --}}
 
+        {{!-- <div class="article-tag post-card-tags">
+            {{#primary_tag}}
+                <span class="post-card-primary-tag">
+                    <a href="{{url}}">{{name}}</a>
+                </span>
+            {{/primary_tag}}
+        </div> --}}
+
+
     </header>
 
-    <section class="gh-content gh-canvas">
+    <section class="content canvas">
         {{content}}
     </section>
 
-    {{#if comments}}
-        <section class="article-comments gh-canvas">
-            {{comments}}
-        </section>
+    {{#if tags}}
+        <ul class="post-tags">
+            {{#foreach tags}}
+            <li>
+                <a href="{{url}}" title="{{name}}" class="tag tag-{{id}} {{slug}}">{{name}}</a>
+            </li>
+            {{/foreach}}
+        </ul>
     {{/if}}
 
 </article>
 </main>
 
-{{!-- A signup call to action is displayed here, unless viewed as a logged-in member --}}
-{{#if @site.members_enabled}}
-{{#unless @member}}
-{{#unless @site.comments_enabled}}
-{{#if access}}
-    <section class="footer-cta outer">
-        <div class="inner">
-            <a class="footer-cta-button" href="#/portal" data-portal>
-                <div class="footer-cta-input">Enter your email</div>
-                <span>Subscribe</span>
-            </a>
-        </div>
-    </section>
-{{/if}}
-{{/unless}}
-{{/unless}}
-{{/if}}
+{{#get "posts" filter="id:-{{id}}+primary_tag:{{primary_tag.slug}}" limit="3" as |more_posts|}}
+
+    {{#if more_posts}}
+        <aside class="read-more-wrap outer">
+            <h2>More like this</h2>
+            <div class="read-more content-grid">
+                {{#foreach more_posts}}
+                    {{> "post-card"}}
+                {{/foreach}}
+            </div>
+        </aside>
+    {{/if}}
+
+{{/get}}
 
 {{/post}}
